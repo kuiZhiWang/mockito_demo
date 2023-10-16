@@ -1,4 +1,4 @@
-[## 单元测试
+## 单元测试
 单元测试是指不启动spring容器的测试，只对某个方法的逻辑进行测试。
 
 测试过程中所有外部调用全部mock了，比如数据库查询，网络请求等，只专注于测试代码里的逻辑。
@@ -69,7 +69,6 @@ spring.jpa.hibernate.ddl-auto=create-drop
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = InitConfig.class),
         })
 public class TestApplication {
-    ...
 ```
 第二步，在系统内注入一个mock bean
 ```java
@@ -86,4 +85,4 @@ public class MockBeans {
         return mockClient;
     }
 }
-```]()
+```
