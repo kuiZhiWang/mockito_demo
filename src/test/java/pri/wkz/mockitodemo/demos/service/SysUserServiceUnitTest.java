@@ -4,14 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+import pri.wkz.mockitodemo.demos.controller.SysUserEndpoint;
 import pri.wkz.mockitodemo.demos.domain.SysUser;
 import pri.wkz.mockitodemo.demos.repository.SysUserRepository;
-import pri.wkz.mockitodemo.demos.controller.SysUserEndpoint;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -34,6 +34,12 @@ public class SysUserServiceUnitTest {
      */
     @InjectMocks
     private SysUserService sysUserService;
+
+    /**
+     * 验证save方法的参数捕获器
+     */
+    @Captor
+    private ArgumentCaptor<SysUser> saveCaptor;
 
     @BeforeEach
     void beforeEach() {
@@ -81,12 +87,17 @@ public class SysUserServiceUnitTest {
 
     @Test
     void saveSuccess() {
-        SysUserEndpoint.SysUserDTO sysUserDTO = createUser("test@test.com");
+        String email = "test@test.com";
+        SysUserEndpoint.SysUserDTO sysUserDTO = createUser(email);
         SysUser sysUser = sysUserService.save(sysUserDTO);
         // 对返回的对象断言
         Assertions.assertNotNull(sysUser.getId());
         // 断言 sysUserRepository.save() 方法被调用了一次
-        verify(sysUserRepository, times(1)).save(any(SysUser.class));
+        verify(sysUserRepository, times(1)).save(saveCaptor.capture());
+
+        // 捕获参数并校验
+        SysUser param = saveCaptor.getValue();
+        Assertions.assertEquals(email, param.getEmail());
         log.info("pass");
     }
 
