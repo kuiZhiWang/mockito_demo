@@ -20,6 +20,8 @@ import static org.mockito.Mockito.*;
  * SysUserService 单元测试
  */
 @Slf4j
+// 这个注解和MockitoAnnotations.openMocks(this);是一个作用
+// @ExtendWith(MockitoExtension.class)
 public class SysUserServiceUnitTest {
     /**
      * 使用 @Mock 注解，mock 掉 SysUserRepository <br/>
@@ -44,6 +46,7 @@ public class SysUserServiceUnitTest {
     @BeforeEach
     void beforeEach() {
         // 注入所有@Mock注解的对象
+        // 这行代码和 @ExtendWith(MockitoExtension.class)是一个作用，但是至少需要一个
         MockitoAnnotations.openMocks(this);
         // 对mock对象的countByEmail方法进行mock，该声明的意思是 当调用 countByEmail 方法时，并且参数传入exists@test.com，返回1L
         when(sysUserRepository.countByEmail("exists@test.com"))

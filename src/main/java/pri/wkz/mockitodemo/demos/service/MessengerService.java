@@ -1,6 +1,7 @@
 package pri.wkz.mockitodemo.demos.service;
 
 import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -8,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 /**
  * @author kuiZhi Wang
  */
+@Slf4j
 @Service
 public class MessengerService {
     @Value("${messenger.endpoint:''}")
